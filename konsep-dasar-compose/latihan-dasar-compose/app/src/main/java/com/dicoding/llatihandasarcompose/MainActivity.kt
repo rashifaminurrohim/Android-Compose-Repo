@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -21,6 +22,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -96,6 +99,8 @@ fun GreetingList(names: List<String>, modifier: Modifier = Modifier) {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
+    var isExpanded = remember { mutableStateOf(false) }
+
     Row(
         modifier = Modifier.padding(8.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -115,10 +120,10 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             )
             Text(text = "Welcome to Dicoding!")
         }
-        IconButton(onClick = {}) {
+        IconButton(onClick = { isExpanded.value = !isExpanded.value }) {
             Icon(
-               imageVector = Icons.Outlined.ExpandMore,
-                contentDescription = "Show More"
+               imageVector = if (isExpanded.value) Icons.Filled.ExpandLess else Icons.Outlined.ExpandMore,
+                contentDescription = if (isExpanded.value) "Show less" else "Show more"
             )
         }
     }

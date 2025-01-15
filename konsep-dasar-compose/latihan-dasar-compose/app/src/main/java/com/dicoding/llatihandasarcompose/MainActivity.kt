@@ -4,6 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -101,6 +104,13 @@ fun GreetingList(names: List<String>, modifier: Modifier = Modifier) {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     var isExpanded by remember { mutableStateOf(false) }
+    val animatedSizeDp by animateDpAsState(
+        targetValue = if (isExpanded) 120.dp else 80.dp,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        )
+    )
 
     Row(
         modifier = Modifier.padding(8.dp),
@@ -109,7 +119,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         Image(
             painter = painterResource(R.drawable.logo),
             contentDescription = "Logo Aplikasi",
-            modifier = Modifier.size(80.dp)
+            modifier = Modifier.size(animatedSizeDp)
         )
         Spacer(modifier = Modifier.size(8.dp))
         Column (modifier = Modifier.weight(1f)){

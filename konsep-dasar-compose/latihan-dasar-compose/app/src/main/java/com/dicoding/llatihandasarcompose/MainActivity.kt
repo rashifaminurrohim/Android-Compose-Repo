@@ -1,5 +1,6 @@
 package com.dicoding.llatihandasarcompose
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,19 +21,22 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.outlined.ExpandMore
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -81,6 +85,7 @@ fun LatihanDasarComposeApp(modifier: Modifier = Modifier) {
 }
 
 @Preview(showBackground = true, device = Devices.PIXEL_4)
+@Preview(showBackground = true, device = Devices.PIXEL_4, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 private fun LatihanDasarComposeAppPreview() {
     LatihanDasarComposeTheme {
@@ -98,7 +103,7 @@ fun GreetingList(names: List<String>, modifier: Modifier = Modifier) {
 //            }
 //        }
         LazyColumn {
-            items(names) { name : String ->
+            items(names) { name: String ->
                 Greeting(name)
             }
         }
@@ -120,35 +125,50 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         )
     )
 
-    Row(
-        modifier = Modifier.padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically
+    Card(
+        shape = MaterialTheme.shapes.medium,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        ),
+        modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp),
     ) {
-        Image(
-            painter = painterResource(R.drawable.logo),
-            contentDescription = "Logo Aplikasi",
-            modifier = Modifier.size(animatedSizeDp)
-        )
-        Spacer(modifier = Modifier.size(8.dp))
-        Column (modifier = Modifier.weight(1f)){
-            Text(
-                text = "Hello $name!",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = modifier
+        Row(
+            modifier = Modifier.padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(R.drawable.logo),
+                contentDescription = "Logo Aplikasi",
+                modifier = Modifier.size(animatedSizeDp)
             )
-            Text(text = "Welcome to Dicoding!")
-        }
-        IconButton(onClick = { isExpanded = !isExpanded }) {
-            Icon(
-               imageVector = if (isExpanded) Icons.Filled.ExpandLess else Icons.Outlined.ExpandMore,
-                contentDescription = if (isExpanded) "Show less" else "Show more"
-            )
+            Spacer(modifier = Modifier.size(8.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "Hello $name!",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = modifier
+                )
+                Text(
+                    text = "Welcome to Dicoding!",
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontStyle = FontStyle.Italic
+                    )
+                )
+            }
+            IconButton(onClick = { isExpanded = !isExpanded }) {
+                Icon(
+                    imageVector = if (isExpanded) Icons.Filled.ExpandLess else Icons.Outlined.ExpandMore,
+                    contentDescription = if (isExpanded) "Show less" else "Show more"
+                )
+            }
         }
     }
 }
 
+
 @Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun GreetingPreview() {
     LatihanDasarComposeTheme {
